@@ -1,6 +1,8 @@
-Fs= 2000; % sample rate
-dur = 2; % duration in seconds 
-freq = 1;
-theta = 90;
-amp = 1;
-sig = SineWave(amp, freq, dur, theta); 
+Fs = 2000;    % Sample rate (Hz)
+dur = 2;      % Duration in seconds
+freq = 1;     % Frequency (Hz)
+theta = 90;   % Phase offset (degrees)
+amp = 1;      % Amplitude
+
+% Call the function to generate and plot the sine wave
+SineWave(amp, freq, Fs, dur, theta);
