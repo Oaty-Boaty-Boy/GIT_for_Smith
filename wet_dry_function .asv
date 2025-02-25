@@ -1,0 +1,13 @@
+function blended_sig = wetdry (dry,wet,ratio)
+
+dry_lengt = length(dry)
+wet_length = length(wet)
+length_diff = wet_length-dry_lengt
+
+pad = zeros (length_diff,1)
+dry = [dry(:); pad];
+
+blended_sig           
+
+
+

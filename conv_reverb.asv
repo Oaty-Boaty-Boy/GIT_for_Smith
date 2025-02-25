@@ -1,0 +1,36 @@
+[sig_pluck,Fs]= audioread ("pluck.wav");
+[Ir,FsIr]= audioread ("Church.wav");
+
+[Ir2]=resample(Ir,Fs,FsIr);
+
+y=conv(sig_pluck,Ir2(:,1));
+y=y./max(abs(y));
+
+sound(y,Fs);
+plot(y);
+
+
+
+% Read the 'pluck.wav' audio file and store the signal and its sampling rate
+[sig_pluck, Fs] = audioread("pluck.wav"); % 'audioread' reads the audio file 'pluck.wav' and stores the audio data in 'sig_pluck'.
+% 'Fs' is the sampling frequency (rate) of the audio file, indicating how many samples per second are in the signal.
+
+% Read the 'Church.wav' audio file and store the impulse response and its sampling rate
+[Ir, FsIr] = audioread("Church.wav"); % 'audioread' reads the audio file 'Church.wav' and stores the audio data in 'Ir'.
+% 'FsIr' is the sampling frequency (rate) of the 'Church.wav' file.
+
+% Resample the impulse response ('Ir') to match the sampling rate of the 'pluck.wav' file
+[Ir2] = resample(Ir, Fs, FsIr); % 'resample' changes the sampling rate of 'Ir' to match that of 'Fs' (the sampling rate of 'pluck.wav').
+% 'Ir2' is the new impulse response signal, resampled to the correct rate.
+
+% Convolve the 'pluck.wav' signal with the resampled impulse response
+y = conv(sig_pluck, Ir2(:, 1)); % 'conv' performs a convolution between the signal 'sig_pluck' and the first channel of the resampled impulse response ('Ir2(:, 1)').
+% Convolution simulates how the 'pluck' signal would sound if it were affected by the 'Church.wav' sound.
+
+y = y ./ max(abs(y)); 
+
+
+
+sound(y, Fs);
+
+plot(y);
