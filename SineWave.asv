@@ -1,0 +1,52 @@
+% Main script to call the function
+fs = 44100;  % Sampling frequency (44.1kHz for audio-like quality)
+f = 440;     % Frequency of the sine wave (A4 note, 440Hz)
+dur = 1;     % Duration of the sine wave (1 second)
+clipPos = 0.1;  % Clipping threshold for positive values
+clipNeg = -1;  % Clipping threshold for negative values
+
+% Generate and process the sine wave with clipping
+SineWaveWithClipping(fs, f, dur, clipPos, clipNeg);
+
+function SineWaveWithClipping(fs, f, dur, clipPos, clipNeg)
+
+
+    t = 0:1/fs:dur;                % Time vector for the signal
+    originalSignal = sin(2 * pi * f * t);       % Generate the sine wave
+
+    clippedSignal = originalSignal;  % Initialize clippedSignal as a copy of the original signal
+
+    % Apply hard clipping distortion to the sine wave
+    for i = 1:length(originalSignal)
+        if (originalSignal(i) > clipPos)
+            clippedSignal(i) = clipPos;  % Clip positive values above the clipPos threshold
+        elseif (originalSignal(i) < clipNeg)
+            clippedSignal(i) = clipNeg;  % Clip negative values below the clipNeg threshold
+        end
+    end
+
+    % Plot both original and clipped sine waves for comparison
+    figure;
+
+    % Choose a small section of the signal for clarity (e.g., first 500 samples)
+    segment = 1:500;
+
+    % Plot the original sine wave (dashed line)
+    plot(segment, originalSignal(segment), '--'); 
+    hold on;
+
+    % Plot the clipped sine wave (solid red line)
+    plot(segment, clippedSignal(segment), 'r'); 
+
+    % Set axis limits and title
+    axis([0 500 -1 1]);  % Limit the plot to the segment
+    title(['Sine Wave with Clipping (Pos: ', num2str(clipPos), ', Neg: ', num2str(clipNeg), ')']);
+    legend('Original Sine Wave', 'Clipped Sine Wave');
+    grid on;
+    hold off;
+
+    % Play the original sine wave and clipped sine wave
+    sound(originalSignal, fs);
+    pause(1.5);  % Wait for the original sound to finish
+    sound(clippedSignal, fs);  % Play the clipped sine wave
+end
