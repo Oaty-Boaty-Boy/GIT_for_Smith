@@ -1,0 +1,21 @@
+% Given parameters
+fs = 2000;                % Sampling frequency (Hz)
+fc = 500;                 % Cutoff frequency (Hz)
+N = 61;                   % Number of filter taps (points)
+wc = 2*pi*fc/fs;         % Normalized cutoff frequency (rad/sample)
+
+% Generate the truncated sinc function coefficients
+n = -(N-1)/2 : (N-1)/2;  % Index for the filter coefficients
+h = sinc(2*fc/fs * n);    % sinc function (scaled by cutoff frequency)
+h = h .* (hamming(N)');   % Apply Hamming window to reduce side lobes
+
+% Plot the impulse response
+figure;
+(n, h, 'filled');
+title('Impulse Response of the FIR Filter');
+xlabel('n');
+ylabel('h[n]');
+
+% Plot the frequency response using fvtool
+fvtool(h, 1, 'Fs', fs);   % Use fvtool to analyze the filter
+
